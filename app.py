@@ -11,8 +11,10 @@ with open(model_file, 'rb') as f:
 def predict(data):
     # Preprocess the input data if necessary
     data = np.asarray(data)  # Convert data to NumPy array
-    data = data.reshape(1, -1)  # Reshape the data to match the expected input shape
+    data[1] = 1 if data[1] == 'Male' else 0  # Encode 'Sex' variable
+
     data = data.astype(float)  # Convert data to float type
+    data = data.reshape(1, -1)  # Reshape the data to match the expected input shape
 
     # Make predictions using the trained model
     prediction = model.predict(data)
