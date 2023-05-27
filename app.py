@@ -10,7 +10,7 @@ with open(model_file, 'rb') as f:
 def predict(data):
     # Preprocess the input data if necessary
     # Make predictions using the trained model
-    prediction = model.predict(data)
+    prediction = model.predict([data])
     return prediction
 
 # Create the Streamlit web app
@@ -24,24 +24,24 @@ def main():
 
     # Add input fields for user input
     # Example: age, gender, cholesterol, etc.
-    age = st.slider("Age", min_value=0, step=1)
+    age = st.slider("Age", min_value=0, max_value=100, step=1)
     sex = st.selectbox("Sex", ["Male", "Female"])
     chol = st.number_input("Cholesterol", min_value=0, step=1)
-    cp = st.slider("Chest Pain", min_value=0, step=1)
-
-
-    
+    cp = st.slider("Chest Pain", min_value=0, max_value=3, step=1)
+    # Add more input fields as needed
 
     # Convert user inputs to a feature vector
-    # Example: Convert age, gender, cholesterol to feature vector
-    feature_vector = [age, sex, chol,cp]
+    feature_vector = [age, sex, chol, cp]
     # Convert the feature vector to the desired input format for the model
 
     # Make predictions on the feature vector
     prediction = predict(feature_vector)
 
     # Display the prediction
-    st.write("Prediction:", prediction)
+    if prediction:
+        st.write("Prediction: Person has heart disease.")
+    else:
+        st.write("Prediction: Person does not have heart disease.")
 
 # Run the app
 if __name__ == "__main__":
